@@ -3,10 +3,19 @@ import AuthHelper from '../helpers/AuthHelper'
 
 //Create new user
 const createUser = async (req, res) => {
+    const { user_email } = req.body
+    const users = await req.context.models.Users.findOne({
+        where: { user_email: user_email }
+      })
+    if (users) {
+        return res.status('409').json({
+            error: "Email already existed"
+        })
+    }
     const salt = AuthHelper.makeSalt();
     const hashPassword = AuthHelper.hashPassword(req.body.user_password, salt);
     const result = await req.context.models.Users.create({
-        user_name : req.body.user_name,
+        user_name : user_email,
         user_email : req.body.user_email,
         user_password : hashPassword,
         user_type : req.body.user_type,
