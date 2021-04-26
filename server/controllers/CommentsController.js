@@ -2,7 +2,7 @@
 const createComment = async (req, res) => {
     const result = await req.context.models.Comments.create({
         comment_text : req.body.comment_text,
-        comment_user_id : req.body.comment_user_id,
+        comment_user_id : req.auth._id,
         comment_movie_id : req.body.comment_movie_id
     })
     return res.send(result)
