@@ -1,9 +1,6 @@
 import React, { Fragment } from 'react'
 import Sidebar from '../components/layout/Sidebar'
-import Footer from '../components/layout/Sidebar'
-
-/* const navigation = ['Dashboard', 'Team', 'Projects', 'Calendar', 'Reports']
-const profile = ['Your Profile', 'Settings', 'Sign out'] */
+import Footer from '../components/layout/Footer'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -11,6 +8,7 @@ function classNames(...classes) {
 
 export default function MainLayout(props) {
   return (
+    <div>
       <div className='grid grid-cols-6 gap-4'>
         <div className><Sidebar/></div>
         <div className='col-span-5'>
@@ -23,6 +21,7 @@ export default function MainLayout(props) {
       </main>
       <Footer/>
         </div>
+      </div>
       </div>
   )
 }
