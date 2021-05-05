@@ -9,7 +9,7 @@ function classNames(...classes) {
 export default function MainLayout(props) {
   return (
     <div>
-      <div className='grid grid-cols-6 gap-4'>
+      <div className='grid grid-cols-6 gap-4 bg-gray-300'>
         <div className><Sidebar/></div>
         <div className='col-span-5'>
         <main>

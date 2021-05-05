@@ -1,7 +1,8 @@
 import React from 'react'
 import { Link } from "react-router-dom";
 import { HomeIcon, UsersIcon, FilmIcon, SparklesIcon, AnnotationIcon} from '@heroicons/react/solid'
-import netflixpng from '../../assets/images/netflix.png'
+import netflixpng from '../../assets/images/netflix-123.png'
+
 
 export default function Sidebar() {
 
@@ -9,7 +10,7 @@ export default function Sidebar() {
     return (
         <>
             <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:w-48 py-18 px-6 bg-gray-900">
-                <div class='object-center'><img src={netflixpng} width='100' height='100' class='bg-transparent object-center py-3 px-3'/></div>
+                <div class='justify-center'><img src={netflixpng} class='w-7 h-7 m-auto block mt-5 mb-5'/></div>
                 <div className="md:flex-col md:items-stretch md:min-h-18 md:flex-no-wrap px-0  items-center justify-between w-full mx-auto">
                     <ul className="md:flex-col md:min-w-full flex flex-col list-none">
                     <li className="dropdown items-center">

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Header from '../../components/Header'
 import apiMovie from './ApiMovies'
-/* import AddMovie from './AddEmployee'
-import DetailsMovie from './DetailsEmployee' */
+import AddMovie from './AddMovie'
+import DetailsMovie from './DetailsMovie' 
 import {TrashIcon, FolderOpenIcon} from '@heroicons/react/outline'
 
 export default function Movies() {
@@ -30,15 +30,12 @@ export default function Movies() {
     })
 
     useEffect(() => {
-        // calling api
         apiMovie.getAll().then(data => {
-            // fill data from apiRegion to regions with setRegions
             setDatas(data)
         }). catch(err => {
             console.log(err)
         });
-    }, []); //useEffect with empty array as param for rendering only once
-
+    }, []);
       useEffect(() => {
         apiMovie.getAll().then(data => {
             setDatas(data);
@@ -46,8 +43,7 @@ export default function Movies() {
         }).catch(err => {
             console.log(err)
         });
-    }, [status]); //re render on status change  
-
+    }, [status]); 
     const onDestroy = (id) => {
         apiMovie.destroy(id).then((result) => {
             console.log(result)
@@ -79,7 +75,7 @@ export default function Movies() {
 
     return (
         <>
-            <h1><Header title={'Movies'} setModal={() => setModal(true)}/></h1>
+            <h1><Header title={'Movie'} setModal={() => setModal(true)}/></h1>
             <div className="flex flex-col">
                     <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -162,7 +158,7 @@ export default function Movies() {
                     /> : null }
                     { detailsMovie ? <DetailsMovie
                     title= {'Movie Details'}
-                    setDetailsEmployee= {() => setDetailsEmployee(false)}
+                    setDetailsMovie= {() => setDetailsMovie(false)}
                     setStatus={() => setStatus(true)}
                     movie={movie}
                     /> : null }
