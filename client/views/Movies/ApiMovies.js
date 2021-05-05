@@ -23,7 +23,7 @@ const create = async (movie) => {
 
 const edit = async (movie) => {
     try {
-        let result = await axios.put(`/api/employees/${movie.movie_id}`, movie)
+        let result = await axios.put(`/api/movies/${movie.movie_id}`, movie)
         return result
     }
     catch (err) {
@@ -34,7 +34,7 @@ const edit = async (movie) => {
 const destroy = async (movie) => {
     console.log(movie)
     try {
-        let result = await axios.delete(`/api/employees/${movie}`)
+        let result = await axios.delete(`/api/movies/${movie}`)
         return result
     }
     catch (err) {
