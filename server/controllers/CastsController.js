@@ -17,7 +17,11 @@ const singleCastImage = async (req, res) => {
 
 //Find all casts
 const findAllCasts = async (req, res) => {
-    const result = await req.context.models.Casts.findAll()
+    const result = await req.context.models.Casts.findAll({
+        include: [{
+            model: req.context.models.Movies
+        }]
+    })
     return res.send(result)
 }
 

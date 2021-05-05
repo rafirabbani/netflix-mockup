@@ -10,6 +10,26 @@ const getAll = async () => {
     }
 }
 
+const getOne = async (movie) => {
+    try {
+        let result = await axios.get (`/api/movies/${movie}`);
+        return await result.data
+    }
+    catch (err) {
+        return await err.message
+    }
+}
+
+const getMoviesCasts = async () => {
+    try {
+        let result = await axios.get(`/api/movies/movies-casts`);
+        return await result.data
+    }
+    catch (err) {
+        return await err.message
+    }
+}
+
 const create = async (movie) => {
     try {
         let result = await axios.post(`/api/movies`, movie);
@@ -32,7 +52,6 @@ const edit = async (movie) => {
 }
 
 const destroy = async (movie) => {
-    console.log(movie)
     try {
         let result = await axios.delete(`/api/movies/${movie}`)
         return result
@@ -44,6 +63,8 @@ const destroy = async (movie) => {
 
 export default {
     getAll,
+    getMoviesCasts,
+    getOne,
     create,
     edit,
     destroy

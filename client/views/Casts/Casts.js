@@ -1,50 +1,39 @@
 import React, { useState, useEffect } from 'react'
 import Header from '../../components/Header'
-import apiMovie from './ApiMovies'
-import AddMovie from './AddMovie'
-import DetailsMovie from './DetailsMovie' 
+import apiMovie from '../Movies/ApiMovies'
+import apiCast from './ApiCasts'
+import AddCast from './AddCasts'
+import DetailsCasts from './DetailsCasts'
 import {TrashIcon, FolderOpenIcon} from '@heroicons/react/outline'
 
-export default function Movies() {
+export default function Casts() {
     const [datas, setDatas] = useState([]);
     const [modal, setModal] = useState(false);
     const [status, setStatus] = useState(false);
-    const [detailsMovie, setDetailsMovie] = useState(false);
-    const [movie, setMovie] = useState({
-        movieId: undefined,
-        movieTMDB: undefined,
-        movieRating: undefined,
-        movieView: undefined,
-        movieTitle: undefined,
-        movieEpisode: undefined,
-        movieDirector: undefined,
-        movieCasts: undefined,
-        movieStudio: undefined,
-        movieStatus: undefined,
-        movieDuration: undefined,
-        movieRelease: undefined,
-        movieCountry: undefined,
-        movieGenre: undefined,
-        movieNetwork: undefined,
-        movieTrailer: undefined,
+    const [detailsCast, setDetailsCast] = useState(false);
+    const [cast, setCast] = useState({
+        castId: undefined,
+        castName: undefined,
+        castMovieId: undefined
     })
 
     useEffect(() => {
-        apiMovie.getAll().then(data => {
-            console.log(data)
+        apiCast.getAll().then(data => {
             setDatas(data)
         }). catch(err => {
             console.log(err)
         });
     }, []);
+    
        useEffect(() => {
-        apiMovie.getAll().then(data => {
+        apiCast.getAll().then(data => {
             setDatas(data);
             setStatus(false);
         }).catch(err => {
             console.log(err)
         });
     }, [status]);
+
     const onDestroy = (id) => {
         apiMovie.destroy(id).then((result) => {
             console.log(result)
@@ -52,31 +41,19 @@ export default function Movies() {
         })
     }
 
-    const onDetails = (movieId, movieTMDB, movieRating, movieView, movieTitle, movieEpisode, movieDirector, movieCasts, movieStudio, movieStatus, movieDuration, movieRelease, movieCountry, movieGenre, movieNetwork, movieTrailer) => {
-        setDetailsMovie(true)
-        setMovie({
-            movieId: movieId,
-            movieTMDB: movieTMDB,
-            movieRating: movieRating,
-            movieView: movieView,
-            movieTitle: movieTitle,
-            movieEpisode: movieEpisode,
-            movieDirector: movieDirector,
-            movieCasts: movieCasts,
-            movieStudio: movieStudio,
-            movieStatus: movieStatus,
-            movieDuration: movieDuration,
-            movieRelease: movieRelease,
-            movieCountry: movieCountry,
-            movieGenre: movieGenre,
-            movieNetwork: movieNetwork,
-            movieTrailer: movieTrailer,
+    const onDetails = (castId, castName, castMovieId) => {
+        setDetailsCast(true)
+        setCast({
+            castId: castId,
+            castName: castName,
+            castMovieId: castMovieId
+
         })
     }
 
     return (
         <>
-            <h1><Header title={'Movie'} setModal={() => setModal(true)}/></h1>
+            <h1><Header title={'Cast'} setModal={() => setModal(true)}/></h1>
             <div className="flex flex-col">
                     <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -88,20 +65,20 @@ export default function Movies() {
                                                 scope="col"
                                                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                             >
-                                                Movie ID
+                                                Cast ID
                                             </th>
                                             <th
                                                 scope="col"
                                                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                             >
-                                                Movie Title
+                                                Cast Name
                                             </th>
 
                                             <th
                                                 scope="col"
                                                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                             >
-                                                Movie Trailer
+                                                Movie Title
                                             </th>
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                 Details
@@ -112,24 +89,21 @@ export default function Movies() {
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
-                                        {datas.map((movie) => (
-                                            <tr key={movie.movie_id}>
+                                        {datas.map((cast) => (
+                                            <tr key={cast.cast_id}>
 
                                                 <td className="whitespace-nowrap">
-                                                    <div className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-left">{movie.movie_id}</div>
+                                                    <div className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-left">{cast.cast_id}</div>
                                                 </td>
                                                 <td className="whitespace-nowrap">
-                                                    <div className="px-6 py-4whitespace-nowrap text-sm text-gray-500 text-left">{movie.movie_title}</div>
+                                                    <div className="px-6 py-4whitespace-nowrap text-sm text-gray-500 text-left">{cast.cast_name}</div>
                                                 </td>
                                                 <td className="whitespace-nowrap">
-                                                    <div className="px-6 py-4whitespace-nowrap text-sm text-gray-500 text-left">{movie.movie_trailer}</div>
+                                                    <div className="px-6 py-4whitespace-nowrap text-sm text-gray-500 text-left">{cast.movie.movie_title}</div>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap content-left text-sm font-medium">
                                                     <a>
-                                                        <button  onClick={ () => onDetails(movie.movie_id, movie.movie_tmdb, movie.movie_rating, movie.movie_view, 
-                                                            movie.movie_title, movie.movie_episode, movie.movie_director, movie.movie_casts, movie.movie_studio, 
-                                                            movie.movie_status, movie.movie_duration, movie.movie_release, movie.movie_country, movie.movie_genre,
-                                                            movie.movie_network, movie.movie_trailer) }>
+                                                        <button  onClick={ () => onDetails(cast.cast_id, cast.cast_name, cast.cast_movie_id) }>
                                                             <FolderOpenIcon className="h-5 w-5 text-blue-500"/></button>
                                                     </a>
                                                 </td>
@@ -141,7 +115,7 @@ export default function Movies() {
                                                                         "Are you sure you wish to delete this item?"
                                                                     )
                                                                 )
-                                                                    onDestroy(movie.movie_id)
+                                                                    onDestroy(cast.cast_id)
                                                             } } ><TrashIcon className="h-5 w-5 text-red-500"/></button>
                                                     </a>
                                                 </td>
@@ -152,16 +126,16 @@ export default function Movies() {
                             </div>
                         </div>
                     </div>
-                    {  modal ? <AddMovie
-                    title={'Add Movie'} 
+                    {  modal ? <AddCast
+                    title={'Add Cast'} 
                     setModal={() => setModal(false)} 
                     setStatus={() => setStatus(true)} 
                     /> : null }
-                    { detailsMovie ? <DetailsMovie
-                    title= {'Movie Details'}
-                    setDetailsMovie= {() => setDetailsMovie(false)}
+                    { detailsCast ? <DetailsCasts
+                    title= {'Cast Details'}
+                    setDetailsCast= {() => setDetailsCast(false)}
                     setStatus={() => setStatus(true)}
-                    movie={movie}
+                    cast={cast}
                     /> : null }
         
                 </div>
