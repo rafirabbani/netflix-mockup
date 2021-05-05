@@ -8,7 +8,7 @@ const auth = IndexController.AuthController
 
 
 router.post ('/', auth.requireSignIn, movies.createMovie)
-router.get('/', auth.requireSignIn,movies.findAllMovies)
+router.get('/', movies.findAllMovies)
 router.get('/movies-casts', movies.findAllMoviesAndCasts)
 router.get('/movies-comments', movies.findAllMoviesAndComments)
 router.get('/:id/movie-casts', movies.findMovieAndCasts)
