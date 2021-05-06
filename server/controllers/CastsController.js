@@ -51,10 +51,10 @@ const deleteCast = async (req, res) => {
 
 //Edit cast
 const editCast = async (req, res) => {
-    const {cast_name} = req.body
+    const {cast_name, cast_movie_id} = req.body
     const result = await req.context.models.Casts.update({
         cast_name: cast_name,
-        cast_image: req.fileName
+        cast_movie_id: cast_movie_id,
     }, {returning: true, where:{cast_id: req.params.id}})
     return res.send(result)
 }

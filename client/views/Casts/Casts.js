@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from '../../components/Header'
 import apiMovie from '../Movies/ApiMovies'
 import apiCast from './ApiCasts'
-import AddCast from './AddCasts'
+import AddCast from './AddCast'
 import DetailsCasts from './DetailsCasts'
 import {TrashIcon, FolderOpenIcon} from '@heroicons/react/outline'
 
@@ -41,13 +41,13 @@ export default function Casts() {
         })
     }
 
-    const onDetails = (castId, castName, castMovieId) => {
+    const onDetails = (castId, castName, castMovieId, movieTitle) => {
         setDetailsCast(true)
         setCast({
             castId: castId,
             castName: castName,
-            castMovieId: castMovieId
-
+            castMovieId: castMovieId,
+            movieTitle: movieTitle
         })
     }
 
@@ -103,7 +103,7 @@ export default function Casts() {
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap content-left text-sm font-medium">
                                                     <a>
-                                                        <button  onClick={ () => onDetails(cast.cast_id, cast.cast_name, cast.cast_movie_id) }>
+                                                        <button  onClick={ () => onDetails(cast.cast_id, cast.cast_name, cast.cast_movie_id, cast.movie.movie_title) }>
                                                             <FolderOpenIcon className="h-5 w-5 text-blue-500"/></button>
                                                     </a>
                                                 </td>

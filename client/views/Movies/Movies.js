@@ -31,12 +31,12 @@ export default function Movies() {
 
     useEffect(() => {
         apiMovie.getAll().then(data => {
-            console.log(data)
             setDatas(data)
         }). catch(err => {
             console.log(err)
         });
     }, []);
+
        useEffect(() => {
         apiMovie.getAll().then(data => {
             setDatas(data);
@@ -45,6 +45,7 @@ export default function Movies() {
             console.log(err)
         });
     }, [status]);
+    
     const onDestroy = (id) => {
         apiMovie.destroy(id).then((result) => {
             console.log(result)
@@ -126,7 +127,7 @@ export default function Movies() {
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap content-left text-sm font-medium">
                                                     <a>
-                                                        <button  onClick={ () => onDetails(movie.movie_id, movie.movie_tmdb, movie.movie_rating, movie.movie_view, 
+                                                        <button  onClick={() => onDetails(movie.movie_id, movie.movie_tmdb, movie.movie_rating, movie.movie_view, 
                                                             movie.movie_title, movie.movie_episode, movie.movie_director, movie.movie_casts, movie.movie_studio, 
                                                             movie.movie_status, movie.movie_duration, movie.movie_release, movie.movie_country, movie.movie_genre,
                                                             movie.movie_network, movie.movie_trailer) }>

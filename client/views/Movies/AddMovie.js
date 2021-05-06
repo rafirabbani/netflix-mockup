@@ -29,7 +29,8 @@ export default function AddMovie(props) {
       setValues({...values, [name]: event.target.value});
     }
 
-    const onSubmit = () => {
+    const onSubmit = (e) => {
+      e.preventDefault();
         const req = {
             movie_id: undefined,
             movie_tmdb: values.movie_tmdb,
@@ -172,6 +173,7 @@ export default function AddMovie(props) {
                         <div className='block mt-5'><label>Movie Status</label></div>
                          <div className='block mt-1'><select class='rounded-lg' id='movie-status' name='movie_status'
                             onChange={handleChange('movie_status')}>
+                            <option  defaultValue hidden>Choose Movie Status</option>
                             <option value='On Going'>On Going</option>
                             <option value='Finished'>Finished</option>
                             </select>
@@ -183,9 +185,10 @@ export default function AddMovie(props) {
                             placeholder={'e.g. 02:40'}
                           />
                         </div>
-                        <div className='block mt-5'><label>Movie Release</label></div>
+                        <div className='block mt-5'><label>Movie Release Status</label></div>
                          <div className='block mt-1'><select class='rounded-lg' id='movie-release' name='movie_release'
                             onChange={handleChange('movie_release')}>
+                            <option defaultvalue hidden>Choose Movie Release Status</option>
                             <option value='true'>Released</option>
                             <option value='false'>Not Released</option>
                             </select>
@@ -227,7 +230,7 @@ export default function AddMovie(props) {
                 <button
                   type="button"
                   className="w-full inline-flex justify-center rounded-lg border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                  onClick={() => onSubmit()}
+                  onClick={onSubmit}
                 >
                   Submit
                 </button>

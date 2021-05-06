@@ -4,7 +4,6 @@ import { PencilAltIcon } from '@heroicons/react/outline'
 import apiMovie from './ApiMovies'
 
 export default function DetailsMovie(props) {
-  console.log(props.movie.movieRelease)
   const [open, setOpen] = useState(true)
   const cancelButtonRef = useRef()
   const [edit, setEdit] = useState(false)
@@ -62,7 +61,7 @@ export default function DetailsMovie(props) {
 
   const modalClose = () => {
     for (const key in props.employee){
-        props.employee[key] = undefined;
+        props.movies[key] = undefined;
     }
     setEdit(false)
     setOpen();
@@ -182,7 +181,7 @@ export default function DetailsMovie(props) {
                         <div className='block mt-5'><label>Movie Status</label></div>
                          <div className='block mt-1'><select class='rounded-lg' id='movie-status' name='movie_status'
                             onChange={handleChange('movie_status')}>
-                            <option value="" disabled selected hidden>{props.movie.movieStatus}</option>
+                            <option defaultValue hidden>{props.movie.movieStatus}</option>
                             <option value='On Going'>On Going</option>
                             <option value='Finished'>Finished</option>
                             </select>
@@ -194,10 +193,10 @@ export default function DetailsMovie(props) {
                             placeholder={props.movie.movieDuration}
                           />
                         </div>
-                        <div className='block mt-5'><label>Movie Release</label></div>
+                        <div className='block mt-5'><label>Movie Release Status</label></div>
                          <div className='block mt-1'><select class='rounded-lg' id='movie-release' name='movie_release'
                             onChange={handleChange('movie_release')}>
-                            <option value="" disabled selected>{props.movie.movieRelease ? 'Released' : 'Not Released'}</option>
+                            <option defaultValue hidden>{props.movie.movieRelease ? 'Released' : 'Not Released'}</option>
                             <option value='true'>Released</option>
                             <option value='false'>Not Released</option>
                             </select>
@@ -246,7 +245,7 @@ export default function DetailsMovie(props) {
                 <button
                   type="button"
                   className="mt-3 w-full inline-flex justify-center rounded-lg border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-100 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                  onClick={() => modalClose()}
+                  onClick={modalClose}
                   ref={cancelButtonRef}
                 >
                   Cancel
