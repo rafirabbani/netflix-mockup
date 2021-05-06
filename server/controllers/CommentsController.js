@@ -2,7 +2,7 @@
 const createComment = async (req, res) => {
     const result = await req.context.models.Comments.create({
         comment_text : req.body.comment_text,
-        comment_user_id : req.auth._id,
+        comment_user_id : req.body.comment_user_id,
         comment_movie_id : req.body.comment_movie_id
     })
     return res.send(result)
@@ -10,7 +10,14 @@ const createComment = async (req, res) => {
 
 //Find all comments
 const findAllComments = async (req, res) => {
-    const result = await req.context.models.Comments.findAll()
+    const result = await req.context.models.Comments.findAll({
+        include: [{
+            model: req.context.models.Users,
+            attributes: {exclude: ['user_salt', 'user_password', 'user_type']}
+        }, {
+            model: req.context.models.Movies
+        }]
+    })
     return res.send(result)
 }
 
