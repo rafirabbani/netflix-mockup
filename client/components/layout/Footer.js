@@ -11,7 +11,6 @@ export default function Footer() {
                 <div className="text-sm text-gray-600 font-semibold py-1 text-center md:text-left">
                   Copyright © {new Date().getFullYear()}{" "}
                   <a
-                    href="https://www.creative-tim.com?ref=nr-footer-admin"
                     className="text-gray-600 hover:text-gray-800 text-sm font-semibold py-1"
                   >
                     
@@ -23,14 +22,11 @@ export default function Footer() {
                  
                   <li>
                     <a
-                      href="https://www.creative-tim.com/presentation?ref=nr-footer-admin"
                       className="text-gray-700 hover:text-gray-900 text-sm font-semibold block py-1 px-3"
                     >
                       About Us
                     </a>
                   </li>
-                
-               
                 </ul>
               </div>
             </div>

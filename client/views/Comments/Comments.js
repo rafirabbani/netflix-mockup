@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import Header from '../../components/Header'
+import CommentsHeader from './CommentsHeader'
 import {TrashIcon, FolderOpenIcon} from '@heroicons/react/outline'
+import apiComment from './ApiComments'
 
 export default function Casts() {
     const [datas, setDatas] = useState([]);
-    const [modal, setModal] = useState(false);
     const [status, setStatus] = useState(false);
 
     useEffect(() => {
-        apiCast.getAll().then(data => {
+        apiComment.getAll().then(data => {
             setDatas(data)
         }). catch(err => {
             console.log(err)
@@ -16,7 +16,7 @@ export default function Casts() {
     }, []);
     
        useEffect(() => {
-        apiCast.getAll().then(data => {
+        apiComment.getAll().then(data => {
             setDatas(data);
             setStatus(false);
         }).catch(err => {
@@ -33,7 +33,7 @@ export default function Casts() {
 
     return (
         <>
-            <h1><Header title={'Cast'} setModal={() => setModal(true)}/></h1>
+            <h1><CommentsHeader title={'Comments'}/></h1>
             <div className="flex flex-col">
                     <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -70,7 +70,7 @@ export default function Casts() {
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
                                         {datas.map((comment) => (
-                                            <tr key={cast.cast_id}>
+                                            <tr key={comment.comment_id}>
 
                                                 <td className="whitespace-nowrap">
                                                     <div className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-left">{comment.comment_id}</div>
@@ -86,19 +86,13 @@ export default function Casts() {
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap content-left text-sm font-medium">
                                                     <a>
-                                                        <button  onClick={ () => onDetails(cast.cast_id, cast.cast_name, cast.cast_movie_id, cast.movie.movie_title) }>
-                                                            <FolderOpenIcon className="h-5 w-5 text-blue-500"/></button>
-                                                    </a>
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap content-left text-sm font-medium">
-                                                    <a>
                                                         <button  onClick={ () => {
                                                                 if (
                                                                     window.confirm(
                                                                         "Are you sure you wish to delete this item?"
                                                                     )
                                                                 )
-                                                                    onDestroy(cast.cast_id)
+                                                                    onDestroy(comment.comment_id)
                                                             } } ><TrashIcon className="h-5 w-5 text-red-500"/></button>
                                                     </a>
                                                 </td>
@@ -108,19 +102,7 @@ export default function Casts() {
                                 </table>
                             </div>
                         </div>
-                    </div>
-                    {  modal ? <AddCast
-                    title={'Add Cast'} 
-                    setModal={() => setModal(false)} 
-                    setStatus={() => setStatus(true)} 
-                    /> : null }
-                    { detailsCast ? <DetailsCasts
-                    title= {'Cast Details'}
-                    setDetailsCast= {() => setDetailsCast(false)}
-                    setStatus={() => setStatus(true)}
-                    cast={cast}
-                    /> : null }
-        
+                    </div>        
                 </div>
         </>
     );
