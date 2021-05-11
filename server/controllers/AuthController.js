@@ -50,7 +50,7 @@ const signIn = async (req, res) => {
       //5. set expire cookie
       res.cookie("kue", token, {
         expire: new Date() + 9999
-      })
+      }) 
   
       //6. exclude value user_password & user_salt, agar tidak tampil di front-end
       // lalu send dengan include token, it's done
