@@ -94,7 +94,7 @@ const deleteMovie = async (req, res) => {
     const result = await req.context.models.Movies.destroy({
         where: {movie_id: req.params.id}
     })
-    return res.send('deleted ' + result + 'row(s)')
+    return res.send('deleted')
 }
 
 //Edit movie

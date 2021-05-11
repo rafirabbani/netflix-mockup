@@ -43,10 +43,10 @@ const findCastOnMovie = async (req, res) => {
 
 //Delete casts by id
 const deleteCast = async (req, res) => {
-    const result = await req.context.models.Casts.destroy({
+    await req.context.models.Casts.destroy({
         where: {user_id: req.params.id}
     })
-    return res.send('deleted ' + result + ' row(s)')
+    return res.send('deleted')
 }
 
 //Edit cast

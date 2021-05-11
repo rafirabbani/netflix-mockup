@@ -8,7 +8,7 @@ const createUser = async (req, res) => {
         where: { user_email: user_email }
       })
     if (users) {
-        return res.status('409').json({
+        return res.sendStatus('409').json({
             error: "Email already existed"
         })
     }
@@ -27,7 +27,9 @@ const createUser = async (req, res) => {
 
 //Find all users
 const findAllUsers = async (req, res) => {
-    const result = await req.context.models.Users.findAll()
+    const result = await req.context.models.Users.findAll({
+        attributes: {exclude: ['user_salt', 'user_password']}
+    })
     return res.send(result)
 }
 
@@ -63,10 +65,10 @@ const findUserAndComments = async (req, res) => {
 
 //Delete user by id
 const deleteUser = async (req, res) => {
-    const result = await req.context.models.Users.destroy({
+    await req.context.models.Users.destroy({
         where: {user_id: req.params.id},
     })
-    return res.send(result)
+    return res.send('deleted')
 }
 
 //Edit user

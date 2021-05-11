@@ -54,7 +54,7 @@ const signIn = async (req, res) => {
   
       //6. exclude value user_password & user_salt, agar tidak tampil di front-end
       // lalu send dengan include token, it's done
-      return res.json({token,users: {
+      return res.json({token, users: {
         user_id : users.dataValues.user_id,
         user_name : users.dataValues.user_name,
         user_email : users.dataValues.user_email,
@@ -64,7 +64,7 @@ const signIn = async (req, res) => {
   
     } 
     catch (err) {
-      return res.status('400').json({
+      return res.sendStatus('400').json({
         error: "Could not retrieve user"
       });
     }
@@ -88,6 +88,5 @@ export default {
     //signUp,
     signIn,
     signOut,
-    signIn,
     requireSignIn
 }

@@ -1,10 +1,6 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import Sidebar from '../components/layout/Sidebar'
 import Footer from '../components/layout/Footer'
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
 
 export default function MainLayout(props) {
   return (

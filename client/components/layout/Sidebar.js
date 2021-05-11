@@ -5,12 +5,10 @@ import netflixpng from '../../assets/images/netflix-123.png'
 
 
 export default function Sidebar() {
-
-    const [collapseShow, setCollapseShow] = React.useState("hidden");
     return (
         <>
             <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:w-48 py-18 px-6 bg-gray-900">
-                <div class='justify-center'><img src={netflixpng} class='w-7 h-7 m-auto block mt-5 mb-5'/></div>
+                <div className='justify-center'><img src={netflixpng} className='w-7 h-7 m-auto block mt-5 mb-5'/></div>
                 <div className="md:flex-col md:items-stretch md:min-h-18 md:flex-no-wrap px-0  items-center justify-between w-full mx-auto">
                     <ul className="md:flex-col md:min-w-full flex flex-col list-none">
                     <li className="dropdown items-center">

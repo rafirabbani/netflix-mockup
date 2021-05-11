@@ -47,10 +47,10 @@ const findCommentsUser = async (req, res) => {
 
 //Delete comment by id
 const deleteComment = async (req, res) => {
-    const result = await req.context.models.Comments.destroy({
+    await req.context.models.Comments.destroy({
         where: {comment_id: req.params.id}
     })
-    return res.send('deleted ' + result + ' row(s)')
+    return res.send('deleted')
 }
 
 //Edit comment

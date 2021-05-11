@@ -60,6 +60,12 @@ export default function Users() {
                                             >
                                                 User Email
                                             </th>
+                                            <th
+                                                scope="col"
+                                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                            >
+                                                User Type
+                                            </th>
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                 Delete
                                             </th>
@@ -77,6 +83,9 @@ export default function Users() {
                                                 </td>
                                                 <td className="whitespace-nowrap">
                                                     <div className="px-6 py-4whitespace-nowrap text-sm text-gray-500 text-left">{user.user_email}</div>
+                                                </td>
+                                                <td className="whitespace-nowrap">
+                                                    <div className="px-6 py-4whitespace-nowrap text-sm text-gray-500 text-left">{user.user_type}</div>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap content-left text-sm font-medium">
                                                     <a>

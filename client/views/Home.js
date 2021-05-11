@@ -2,11 +2,11 @@ import React from 'react'
 
 export default function Home() {
     return (
-            <div class='flex flex-col'>
-                    <header class='py-5 bg-gray-700 sticky top-0'>
+            <div className='flex flex-col'>
+                    <header className='py-5 bg-gray-700 sticky top-0'>
 
                     </header>
-                <main class='overflow-y-auto p-5 text-justify flex-1'>
+                <main className='overflow-y-auto p-5 text-justify flex-1'>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vitae lobortis turpis. Sed nec luctus nisi. Vivamus at pharetra dolor. Phasellus vitae arcu felis. Curabitur vulputate nulla ut nunc ultricies sagittis sit amet non felis. Sed nec purus vitae arcu semper commodo. Nam lobortis, erat eget vestibulum accumsan, diam nulla facilisis felis, et dignissim magna nisi sit amet leo. Aliquam erat volutpat. Morbi porttitor, odio quis finibus fringilla, sapien magna accumsan tellus, sed molestie magna ex sed neque. Aenean viverra a sem id euismod. Phasellus gravida mattis luctus. Fusce facilisis tincidunt tellus, id venenatis tellus porttitor blandit.
 
 Donec commodo vitae justo sit amet sodales. Sed feugiat placerat elit quis tempor. Proin aliquam ultricies diam non dignissim. Integer viverra massa ipsum, a feugiat nibh rhoncus sit amet. Vivamus vel dignissim erat, in laoreet libero. Integer sed nulla feugiat, suscipit leo eu, lobortis orci. Phasellus eleifend velit eget enim placerat, id luctus nibh placerat. Morbi ac iaculis leo. Nulla ut blandit odio, vitae posuere ligula.

@@ -7,6 +7,7 @@ import Movies from './views/Movies/Movies'
 import Casts from './views/Casts/Casts'
 import Comments from './views/Comments/Comments'
 import Users from './views/Users/Users'
+import Login from './views/Login/Login'
 
 
 
@@ -14,6 +15,7 @@ const MainRouter = () => {
   return (
   <>
     <Switch>
+      <Route exact path = '/netflix-mockup/login/' component={Login}/>
       <Route exact path ='/netflix-mockup/' component={Home}/>
       <MainLayout>
         <Route exact path="/netflix-mockup/dashboard" component={Dashboard}/>

@@ -6,6 +6,7 @@ import DetailsMovie from './DetailsMovie'
 import {TrashIcon, FolderOpenIcon} from '@heroicons/react/outline'
 
 export default function Movies() {
+    
     const [datas, setDatas] = useState([]);
     const [modal, setModal] = useState(false);
     const [status, setStatus] = useState(false);
