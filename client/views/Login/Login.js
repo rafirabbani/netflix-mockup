@@ -2,19 +2,20 @@ import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import CreateAccount from './CreateAccount'
 import apiLogin from './ApiLogin'
-
+import Warning from './Warning'
 
 export default function Login() {
 
 	const history = useHistory();
     const [modal, setModal] = useState(false);
+	const [warning, setWarning] = useState(false);
 	const [login, setLogin] = useState({
 		user_email: undefined,
 		user_password: undefined
-	})
+	});
 	
 	const handleChange = name => event => {
-		setLogin({...login, [name]: event.target.value })
+		setLogin({...login, [name]: event.target.value });
 	}
 
 	const onLogin = (e) => {
@@ -25,10 +26,19 @@ export default function Login() {
 		}
 		apiLogin.signIn(req).then(result => {
 			localStorage.setItem('data', JSON.stringify({token: result.data.token, user_type: result.data.users.user_type}));
-			let blyat = localStorage.getItem('data')
-			console.log(JSON.parse(blyat))
-		})
-		//history.push('/netflix-mockup/dashboard/')
+		});
+		const data = JSON.parse(localStorage.getItem('data'))
+		if (data.user_type === 'ADMIN') {
+			history.push('/netflix-mockup/dashboard/')
+		}
+		else {
+			setWarning(true)
+			apiLogin.signOut().then(result => {
+				localStorage.removeItem('data')
+				console.log(result)
+				console.log(localStorage.getItem('data'), document.cookie)	
+			})
+		}
 	} 
 
 
@@ -51,7 +61,7 @@ export default function Login() {
                     <h3 className="pt-4 text-2xl text-center text-gray-900">Admin Dashboard Login</h3>
 						<form className="px-8 pt-6 pb-8 mb-4 bg-white rounded">
 							<div className="mb-4">
-								<label className="block mb-2 text-sm font-bold text-gray-700" for="user_email">
+								<label className="block mb-2 text-sm font-bold text-gray-700">
 									Email
 								</label>
 								<input
@@ -62,7 +72,7 @@ export default function Login() {
 								/>
 							</div>
 							<div className="mb-4">
-								<label className="block mb-2 text-sm font-bold text-gray-700" for="password">
+								<label className="block mb-2 text-sm font-bold text-gray-700">
 									Password
 								</label>
 								<input
@@ -74,7 +84,7 @@ export default function Login() {
 							</div>
 							<div className="mb-6 text-center">
 								<button
-									class="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+									className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
 									type="button"
 									onClick={onLogin}
 								>
@@ -85,7 +95,7 @@ export default function Login() {
 							<div className="text-center">
                                 <button type='button' onClick={() => setModal(true)}>
 								<a
-									class="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
+									className="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
 									
 								>
 									Create an Account!
@@ -105,6 +115,11 @@ export default function Login() {
             setModal={() => setModal(false)}
             /> : null
         }
+		{
+			warning ? <Warning 
+			setWarning={() => setWarning(false)}
+			/> : null
+		}
     </>
     )
 }

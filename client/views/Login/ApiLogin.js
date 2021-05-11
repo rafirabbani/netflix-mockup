@@ -10,6 +10,17 @@ const signIn = async (login) => {
     }
 }
 
+const signOut = async () => {
+    try {
+        let result = await axios.post(`/api/auth/signout`)
+        return result
+    }
+    catch (err) {
+        return await err.message
+    }
+}
+
 export default {
-    signIn
+    signIn, 
+    signOut
 }
