@@ -84,8 +84,14 @@ const requireSignIn = expressJwt({
     algorithms: ['sha1', 'RS256', 'HS256']
 })
 
+const isSignIn  = (req, res) => {
+  return res.status('200').json({
+    message: "signed in"
+  })
+}
+
 export default {
-    //signUp,
+    isSignIn,
     signIn,
     signOut,
     requireSignIn
