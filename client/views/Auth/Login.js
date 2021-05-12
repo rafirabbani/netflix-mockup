@@ -6,7 +6,6 @@ import AccessDenied from './AccessDenied'
 import Warning from './Warning'
 
 export default function Login() {
-
 	const history = useHistory();
     const [addAccount, setAddAccount] = useState(false);
 	const [accessDenied, setAccessDenied] = useState(false);
@@ -30,19 +29,16 @@ export default function Login() {
 			if (result.status === 401) {
 				setWarning(true)
 			}
+			else if ( result.data.users.user_type === 'ADMIN') {
+				localStorage.setItem('data', JSON.stringify({
+					token: result.data.token, user_type: result.data.users.user_type
+				}));
+				history.push('/netflix-mockup/dashboard/')			
+			}
 			else {
-				localStorage.setItem('data', JSON.stringify({token: result.data.token, user_type: result.data.users.user_type}));
-				const data = JSON.parse(localStorage.getItem('data'))
-				if (data.user_type === 'ADMIN') {
-					history.push('/netflix-mockup/dashboard/')
-				}
-				else {
+				apiAuth.signOut().then(() => {
 					setAccessDenied(true)
-					apiAuth.signOut().then(result => {
-						localStorage.removeItem('data')
-						console.log(result)
-					})
-				}
+				})
 			}
 		})
 	} 
@@ -81,10 +77,11 @@ export default function Login() {
 								</label>
 								<input
 									className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-									id="user_password" name='user_password' type="password"
+									id="user_password" name='user_password' type='password'
 									placeholder="Password"
 									onChange={handleChange('user_password')}
 								/>
+								
 							</div>
 							<div className="mb-6 text-center">
 								<button
@@ -122,6 +119,7 @@ export default function Login() {
 		{
 			accessDenied ? <AccessDenied
 			setAccessDenied={() => setAccessDenied(false)}
+			setStatus={() => setStatus(true)}
 			/> : null
 		}
 		{

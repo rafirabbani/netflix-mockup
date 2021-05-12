@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { ExclamationIcon } from '@heroicons/react/solid'
 
 export default function Warning(props) {
-  console.log(props)
   const [showModal, setShowModal] = useState(false);
   const modalClose = () => {
     props.setWarning();

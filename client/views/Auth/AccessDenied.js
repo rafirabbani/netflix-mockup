@@ -5,7 +5,7 @@ export default function AcessDenied(props) {
   const [showModal, setShowModal] = useState(false);
   const modalClose = () => {
     props.setAccessDenied();
-    setShowModal(false)
+    setShowModal(false);
   }
 
   return (
