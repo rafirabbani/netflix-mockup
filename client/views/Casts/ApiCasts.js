@@ -17,7 +17,7 @@ const create = async (cast) => {
         
     }
     catch (err) {
-        return err.message
+        return err.respinse
     }
 }
 
@@ -27,7 +27,7 @@ const edit = async (cast) => {
         return result
     }
     catch (err) {
-        return err.message
+        return err.response
     }
 }
 
@@ -37,7 +37,7 @@ const destroy = async (cast) => {
         return result
     }
     catch (err) {
-        return err.message
+        return err.response
     }
 }
 

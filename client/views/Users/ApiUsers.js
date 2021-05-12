@@ -6,7 +6,7 @@ const create = async (user) => {
         return await result.data
     }
     catch (err) {
-        return await err.message
+        return await err.response
     }
 }
 
@@ -16,7 +16,7 @@ const getAll = async () => {
         return await result.data
     }
     catch (err) {
-        return await err.message
+        return await err.response
     }
 }
 
@@ -26,7 +26,7 @@ const destroy = async (user) => {
         return result
     }
     catch (err) {
-        return err.message
+        return err.response
     }
 }
 

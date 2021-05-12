@@ -7,7 +7,7 @@ import Movies from './views/Movies/Movies'
 import Casts from './views/Casts/Casts'
 import Comments from './views/Comments/Comments'
 import Users from './views/Users/Users'
-import Login from './views/Login/Login'
+import Login from './views/Auth/Login'
 
 
 

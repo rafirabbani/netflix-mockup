@@ -6,7 +6,7 @@ const signIn = async (login) => {
         return result
     }
     catch (err) {
-        return await err.message
+        return err.response
     }
 }
 
@@ -16,7 +16,7 @@ const signOut = async () => {
         return result
     }
     catch (err) {
-        return await err.message
+        return await err.response
     }
 }
 

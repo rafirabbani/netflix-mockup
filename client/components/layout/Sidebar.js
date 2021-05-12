@@ -1,10 +1,25 @@
-import React from 'react'
-import { Link } from "react-router-dom";
-import { HomeIcon, UsersIcon, FilmIcon, SparklesIcon, AnnotationIcon} from '@heroicons/react/solid'
+import React, { useState } from 'react'
+import { Link, useHistory } from "react-router-dom";
+import { HomeIcon, UsersIcon, FilmIcon, SparklesIcon, AnnotationIcon, LogoutIcon} from '@heroicons/react/solid'
 import netflixpng from '../../assets/images/netflix-123.png'
+import apiAuth from '../../views/Auth/ApiAuth'
+import LogoutModal from './LogoutModal'
+
 
 
 export default function Sidebar() {
+    const history = useHistory();
+    const [logout, setLogout] = useState(false);
+    const logOut = () => {
+        apiAuth.signOut().then((result) => {
+            console.log(result);
+            localStorage.removeItem('data');
+            setLogout(true);
+        })       
+    }
+
+          
+    
     return (
         <>
             <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:w-48 py-18 px-6 bg-gray-900">
@@ -69,8 +84,20 @@ export default function Sidebar() {
                                     }><UsersIcon className={'h-5 w-5 text-gray-500 mr-2'}/>Users</i>{""}                        
                         </Link>
                         </li>
+                        <button className='flex items-center text-red-600 text-l py-3 font-bold hover:bg-gray-200 rounded-xl'
+                        onClick={logOut}>
+                            <LogoutIcon className='h-5 w-5 text-gray-500 mr-2'/>
+                            <span>Log Out</span>
+                        </button>
                     </ul>
                 </div>
+                {
+                    logout ? <LogoutModal
+                    title={'Logout'}
+                    setLogout={() => setLogout(false)}
+                    toLogin={() => history.push('/netflix-mockup/login/')}
+                    /> : null
+                }
             </nav>
         </>
     )

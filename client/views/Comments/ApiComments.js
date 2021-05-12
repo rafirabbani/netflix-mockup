@@ -6,7 +6,7 @@ const getAll = async () => {
         return await result.data
     }
     catch (err) {
-        return await err.message
+        return await err.response
     }
 }
 
@@ -17,7 +17,7 @@ const create = async (comment) => {
         
     }
     catch (err) {
-        return err.message
+        return err.response
     }
 }
 
@@ -27,7 +27,7 @@ const edit = async (comment) => {
         return result
     }
     catch (err) {
-        return err.message
+        return err.response
     }
 }
 
@@ -37,7 +37,7 @@ const destroy = async (comment) => {
         return result
     }
     catch (err) {
-        return err.message
+        return err.response
     }
 }
 

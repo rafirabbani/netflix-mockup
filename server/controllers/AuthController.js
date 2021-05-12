@@ -31,9 +31,9 @@ const signIn = async (req, res) => {
   
       //3. jika user tidak ketemu munculkan error
       if (!users) {
-        return res.status('401').json({
+        return res.status('401').send({
           error: "Email or password doesn't match."
-        });
+        })
       }
   
       //3. check apakah user_password di table === user_passowrd yg di entry dari body,

@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import CreateAccount from './CreateAccount'
-import apiLogin from './ApiLogin'
+import apiAuth from './ApiAuth'
+import AccessDenied from './AccessDenied'
 import Warning from './Warning'
 
 export default function Login() {
 
 	const history = useHistory();
-    const [modal, setModal] = useState(false);
+    const [addAccount, setAddAccount] = useState(false);
+	const [accessDenied, setAccessDenied] = useState(false);
 	const [warning, setWarning] = useState(false);
 	const [login, setLogin] = useState({
 		user_email: undefined,
@@ -24,24 +26,26 @@ export default function Login() {
 			user_email: login.user_email,
 			user_password: login.user_password
 		}
-		apiLogin.signIn(req).then(result => {
-			localStorage.setItem('data', JSON.stringify({token: result.data.token, user_type: result.data.users.user_type}));
-		});
-		const data = JSON.parse(localStorage.getItem('data'))
-		if (data.user_type === 'ADMIN') {
-			history.push('/netflix-mockup/dashboard/')
-		}
-		else {
-			setWarning(true)
-			apiLogin.signOut().then(result => {
-				localStorage.removeItem('data')
-				console.log(result)
-				console.log(localStorage.getItem('data'), document.cookie)	
-			})
-		}
+		apiAuth.signIn(req).then(result => {
+			if (result.status === 401) {
+				setWarning(true)
+			}
+			else {
+				localStorage.setItem('data', JSON.stringify({token: result.data.token, user_type: result.data.users.user_type}));
+				const data = JSON.parse(localStorage.getItem('data'))
+				if (data.user_type === 'ADMIN') {
+					history.push('/netflix-mockup/dashboard/')
+				}
+				else {
+					setAccessDenied(true)
+					apiAuth.signOut().then(result => {
+						localStorage.removeItem('data')
+						console.log(result)
+					})
+				}
+			}
+		})
 	} 
-
-
 
     return (
         <>
@@ -65,7 +69,7 @@ export default function Login() {
 									Email
 								</label>
 								<input
-									className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+									className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none "
 									id="user_email" name='user_email' type="text"
 									placeholder="Email"
 									onChange={handleChange('user_email')}
@@ -93,7 +97,7 @@ export default function Login() {
 							</div>
 							<hr className="mb-6 border-t" />
 							<div className="text-center">
-                                <button type='button' onClick={() => setModal(true)}>
+                                <button type='button' onClick={() => setAddAccount(true)}>
 								<a
 									className="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
 									
@@ -110,13 +114,18 @@ export default function Login() {
 	        </body>
         </div>
         {
-            modal ? <CreateAccount 
+            addAccount ? <CreateAccount 
             title={'Create an Account'}
-            setModal={() => setModal(false)}
+            setAddAccount={() => setAddAccount(false)}
             /> : null
         }
 		{
-			warning ? <Warning 
+			accessDenied ? <AccessDenied
+			setAccessDenied={() => setAccessDenied(false)}
+			/> : null
+		}
+		{
+			warning ? <Warning
 			setWarning={() => setWarning(false)}
 			/> : null
 		}
