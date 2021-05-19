@@ -7,7 +7,7 @@ const auth = IndexController.AuthController
 //const upload = IndexController.UploadController
 
 
-router.post ('/', movies.createMovie)
+router.post ('/create/movie', movies.createMovie)
 router.get('/',movies.findAllMovies)
 router.get('/movies-casts', movies.findAllMoviesAndCasts)
 router.get('/movies-comments', movies.findAllMoviesAndComments)

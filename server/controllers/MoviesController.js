@@ -1,26 +1,78 @@
-/* import formidable from 'formidable'
+import formidable from 'formidable'
 import fs from 'fs'
-import path from 'path' */
+import path from 'path'
+
+const pathDir = path.join(__dirname, '../uploads')
+
 //Create new Movie
-const createMovie = async (req, res, next) => {
-    const result = await req.context.models.Movies.create({
-        movie_tmdb : req.body.movie_tmdb,
-        movie_rating : req.body.movie_rating,
-        movie_view : req.body.movie_view,
-        movie_title : req.body.movie_title,
-        movie_episode: req.body.movie_episode,
-        movie_director : req.body.movie_director,
-        movie_casts : req.body.movie_casts,
-        movie_studio : req.body.movie_studio,
-        movie_status : req.body.movie_status,
-        movie_duration : req.body.movie_duration,
-        movie_release : req.body.movie_release,
-        movie_country: req.body.movie_country,
-        movie_genre: req.body.movie_genre,
-        movie_network: req.body.movie_network,
-        movie_trailer: req.body.movie_trailer,
-    })
-    return res.send(result)
+const createMovie = async (req, res) => {
+    const dataField ={}
+    if (!fs.existsSync(pathDir)) {
+        fs.mkdirSync(pathDir);
+    }
+
+    const form = formidable({
+        multiples: true,
+        uploadDir: pathDir,
+        keepExtensions: true
+    });
+    /* form.onPart = (part) => {
+        console.log(part)
+    } */
+
+    form 
+        .on('fileBegin', (keyName, file) => {
+            //console.log('fileBegin', file)
+            let folder = pathDir + `/movies/`
+            if (!fs.existsSync(folder)) {
+                fs.mkdirSync(folder, {recursive: true})
+            }
+            file.path = path.join(folder + file.name)
+        })
+        .on('field', (keyName, value) => {
+            dataField[keyName] = value
+        })
+        .on('file', (keyName, file) => {
+            //console.log(dataField)
+            const title = dataField.movie_title.replace(/\s+/g, '').trim()
+            let folder = pathDir + `/movies/${title}/`
+            if (!fs.existsSync(folder)) {
+                fs.mkdir(folder, {recursive: true}, (err) => {
+                    if (err) throw err
+                    console.log('dir made')
+                })
+            }
+            fs.rename(file.path, path.join(folder + file.name), (err) => {
+                if (err) throw err
+                console.log('file moved')
+            })
+            file.path = path.join(folder + file.name)
+        })
+        .on('end', () => {
+            console.log('File Uploaded Successfully')
+            //return res.send('hi')
+        });
+
+    form.parse(req, async(err, fields, files) => {
+        //console.log(fields)
+        //console.log('parse',files)
+        if (err) {
+            res.sendStatus(400).json({
+                message: err.message
+            })
+        }
+        const data = new req.context.models.Movies(fields)
+            if (files) {
+            data.movie_image = files.movie_image.name
+            //console.log(data.dataValues)
+        }
+        try {
+            const result = await req.context.models.Movies.create(data.dataValues)
+            return res.send(result)
+        }
+        catch (err) {
+            res.send(err)
+        }     })
 }
 
 //Update movie image
