@@ -5,6 +5,8 @@ import apiMovie from './ApiMovies'
 
 export default function AddMovie(props) {
     const [open, setOpen] = useState(true);
+    const [blob, setBlob] = useState([]);
+    const [files, setFiles] = useState([]);
     const cancelButtonRef = useRef()
     const [values, setValues] = useState({
         movie_id: undefined,
@@ -29,9 +31,19 @@ export default function AddMovie(props) {
       setValues({...values, [name]: event.target.value});
     }
 
+    const uploadSingleFile = name => event => {
+      //1.untuk ubah file ke blob agar bisa di preview image nya
+      setBlob({ ...blob, [name]: URL.createObjectURL(event.target.files[0]) })
+
+      //2. simpan data File, bisa juga gunakan blob, lalu blob diconvert lagi
+      // ke File type, spy ga bingung kita coba gunakan cara ini aja
+      setFiles({ ...files, [name]: event.target.files[0] })
+  }
+
     const onSubmit = (e) => {
       e.preventDefault();
-        const req = {
+      let create = new FormData();
+      /* const req = {
             movie_id: undefined,
             movie_tmdb: values.movie_tmdb,
             movie_rating: values.movie_rating,
@@ -48,16 +60,34 @@ export default function AddMovie(props) {
             movie_genre: values.movie_genre,
             movie_network: values.movie_network,
             movie_trailer: values.movie_trailer,
-        }
-        apiMovie.create(req).then(result => {
+        } */
+
+        create.append('movie_tmdb', values.movie_tmdb);
+        create.append('movie_rating', values.movie_rating);
+        create.append('movie_view', values.movie_view);
+        create.append('movie_title', values.movie_title);
+        create.append('movie_episode', values.movie_episode);
+        create.append('movie_director', values.movie_director);
+        create.append('movie_casts', values.movie_casts);
+        create.append('movie_studio', values.movie_studio);
+        create.append('movie_status', values.movie_status);
+        create.append('movie_duration', values.movie_duration);
+        create.append('movie_release', values.movie_release);
+        create.append('movie_country', values.movie_country);
+        create.append('movie_genre', values.movie_genre);
+        create.append('movie_network', values.movie_network);
+        create.append('movie_trailer', values.movie_trailer);
+        files.image && create.append('movie_image', files.image);
+
+        apiMovie.create(create).then(result => {
             console.log(result)
         });
-        modalClose()
+        modalClose();
     }
     
     const modalClose = () => {
         setOpen();
-        props.setStatus()
+        props.setStatus();
         props.setModal();
     }
 
@@ -220,6 +250,20 @@ export default function AddMovie(props) {
                             onChange={handleChange('movie_trailer')} 
                             placeholder={'e.g. https://www.youtube.com/watch?v=s7EdQ4FqbhY'}
                           />
+                        </div>
+                        <div className='block mt-5'><label>Movie Image</label></div>
+                        <div className="mt-1 col-span-6 sm:col-span-2 lg:col-span-3 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-lg">
+                          <div className="space-y-2 text-center">
+                            <div className="mx-auto h-48 w-24 text-gray-400">
+                              <img src={blob.image} alt='' className="mx-auto h-48 w-48" />
+                            </div>
+                            <div className="flex text-sm">
+                              <label for="image" className="relative cursor-pointer bg-white rounded-lg font-medium hover:text-blue-400">
+                                Upload Image
+                                  <input id="image" name="image" onChange={uploadSingleFile('image')} type="file" className="sr-only" />
+                              </label>
+                            </div>
+                          </div>
                         </div>
                       </form>
                     </div>

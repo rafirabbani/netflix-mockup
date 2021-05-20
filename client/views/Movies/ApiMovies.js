@@ -32,7 +32,7 @@ const getMoviesCasts = async () => {
 
 const create = async (movie) => {
     try {
-        let result = await axios.post(`/api/movies`, movie);
+        let result = await axios.post(`/api/movies/create/movie`, movie);
         return result
         
     }
