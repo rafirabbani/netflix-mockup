@@ -15,6 +15,6 @@ router.get('/:id/movie-casts', movies.findMovieAndCasts)
 router.get('/:id/movie-comments', movies.findMovieAndComments)
 router.get('/:id', movies.findMovie)
 router.delete('/:id', movies.deleteMovie)
-router.put('/:id', movies.editMovie)
+router.put('/edit/:id', movies.editMovie)
 
 export default router

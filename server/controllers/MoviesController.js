@@ -64,6 +64,7 @@ const createMovie = async (req, res) => {
         const data = new req.context.models.Movies(fields)
             if (files) {
             data.movie_image = files.movie_image.name
+            data.movie_image_path = files.movie_image.path
             //console.log(data.dataValues)
         }
         try {
@@ -72,7 +73,8 @@ const createMovie = async (req, res) => {
         }
         catch (err) {
             res.send(err.response)
-        }     })
+        }
+    })
 }
 
 //Update movie image
@@ -157,7 +159,77 @@ const deleteMovie = async (req, res) => {
 
 //Edit movie
 const editMovie = async (req, res) => {
-    const { movie_tmdb, movie_rating, movie_view, movie_title, movie_episode, movie_director, movie_casts, movie_studio,
+    const result = await req.context.models.Movies.findOne({
+        where: {movie_id: req.params.id}
+    });
+    let title = result.dataValues.movie_title
+    const dataField = {}
+    dataField['movie_title'] = title
+    //console.log(dataField)
+    const form = formidable({
+        multiples: true,
+        uploadDir: pathDir,
+        keepExtensions: true
+    });
+    /* form.onPart = (part) => {
+        console.log(part)
+    }*/
+    form 
+        .on('fileBegin', (keyName, file) => {
+            //console.log('fileBegin', file)
+            let folder = pathDir + `/movies/`
+            if (!fs.existsSync(folder)) {
+                fs.mkdirSync(folder, {recursive: true})
+            }
+            file.path = path.join(folder + file.name)
+        })
+        .on('field', (keyName, value) => {
+            dataField[keyName] = value
+        })
+        .on('file', (keyName, file) => {
+            //console.log(dataField)
+            const title = dataField.movie_title.replace(/\s+/g, '').trim()
+            let folder = pathDir + `/movies/${title}/`
+            if (!fs.existsSync(folder)) {
+                fs.mkdir(folder, {recursive: true}, (err) => {
+                    if (err) throw err
+                    console.log('dir made')
+                })
+            }
+            fs.rename(file.path, path.join(folder + file.name), (err) => {
+                if (err) throw err
+                console.log('file moved')
+            })
+            file.path = path.join(folder + file.name)
+        })
+        .on('end', () => {
+            console.log('File Uploaded Successfully')
+            //return res.send('hi')
+        });
+
+    form.parse(req, async(err, fields, files) => {
+        //console.log(fields)
+        //console.log('parse',files)
+        if (err) {
+            res.sendStatus(400).json({
+                message: err.message
+            })
+        }
+        const data = new req.context.models.Movies(fields)
+            if (files) {
+            data.movie_image = files.movie_image.name
+            //console.log(data.dataValues)
+        }
+        try {
+            const result = await req.context.models.Movies.update(data.dataValues)
+            return res.send(result)
+        }
+        catch (err) {
+            res.send(err.response)
+        }
+    })
+
+   /*  const { movie_tmdb, movie_rating, movie_view, movie_title, movie_episode, movie_director, movie_casts, movie_studio,
             movie_status, movie_duration, movie_release, movie_country, movie_genre, movie_network, movie_trailer} = req.body
         
     const result = await req.context.models.Movies.update({
@@ -177,7 +249,7 @@ const editMovie = async (req, res) => {
         movie_network: movie_network,
         movie_trailer: movie_trailer
     }, {returning: true, where: {movie_id: req.params.id}})
-    return res.send(result)
+    return res.send(result) */
 }
 
 export default {

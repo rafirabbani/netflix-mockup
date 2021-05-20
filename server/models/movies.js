@@ -70,6 +70,10 @@ const movies = (sequelize, DataTypes) => {
       type: DataTypes.STRING(255),
       allowNull: true
     },
+    movie_image_path: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
   }, {
     sequelize,
     tableName: 'movies',
