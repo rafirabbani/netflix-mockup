@@ -47,9 +47,9 @@ export default function Movies() {
         });
     }, [status]);
     
-    const onDestroy = (id) => {
-        apiMovie.destroy(id).then((result) => {
-            console.log(result)
+    const onDestroy = (id, title) => {
+        apiMovie.destroy(id, title).then((result) => {
+            //console.log(result)
             setStatus(true)
         })
     }
@@ -143,7 +143,7 @@ export default function Movies() {
                                                                         "Are you sure you wish to delete this item?"
                                                                     )
                                                                 )
-                                                                    onDestroy(movie.movie_id)
+                                                                    onDestroy(movie.movie_id, movie.movie_title)
                                                             } } ><TrashIcon className="h-5 w-5 text-red-500"/></button>
                                                     </a>
                                                 </td>

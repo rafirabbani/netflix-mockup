@@ -51,9 +51,14 @@ const edit = async (movie) => {
     }
 }
 
-const destroy = async (movie) => {
+const destroy = async (movie_id, movie_title) => {
     try {
-        let result = await axios.delete(`/api/movies/${movie}`)
+        //console.log(movie_id, movie_title)
+        let result = await axios.delete(`/api/movies/${movie_id}`,{
+            data: {
+                'movie_title': movie_title
+            }
+        })
         return result
     }
     catch (err) {

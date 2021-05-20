@@ -71,7 +71,7 @@ const createMovie = async (req, res) => {
             return res.send(result)
         }
         catch (err) {
-            res.send(err)
+            res.send(err.response)
         }     })
 }
 
@@ -143,10 +143,16 @@ const findMovieAndCasts = async (req, res) => {
 
 //Delete movie by id
 const deleteMovie = async (req, res) => {
-    const result = await req.context.models.Movies.destroy({
-        where: {movie_id: req.params.id}
+    let title = req.body.movie_title.replace(/\s+/g, '').trim()
+    let folder = pathDir + `/movies/${title}/`
+    fs.rmdir(folder, {recursive: true}, async (err) => {
+        if (err) throw err
+        console.log('image deleted')
+        const result = await req.context.models.Movies.destroy({
+            where: {movie_id: req.params.id}
+        })
+        return res.send('deleted ' + result + ' row')
     })
-    return res.send('deleted')
 }
 
 //Edit movie
