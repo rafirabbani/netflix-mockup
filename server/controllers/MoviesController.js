@@ -34,13 +34,18 @@ const createMovie = async (req, res) => {
         })
         .on('file', (keyName, file) => {
             //console.log(dataField)
-            const title = dataField.movie_title.replace(/\s+/g, '').trim()
+            const title = dataField.movie_title.replace(/\s+/g, '').replace(/\W/g, '').trim()
+            //console.log(title)
             let folder = pathDir + `/movies/${title}/`
             if (!fs.existsSync(folder)) {
-                fs.mkdir(folder, {recursive: true}, (err) => {
+                fs.mkdirSync(folder, {recursive: true}/* (err) => {
                     if (err) throw err
                     console.log('dir made')
-                })
+                    fs.rename(file.path, path.join(folder + file.name), (err) => {
+                        if (err) throw err
+                        console.log('file moved')
+                    })
+                } */)
             }
             fs.rename(file.path, path.join(folder + file.name), (err) => {
                 if (err) throw err
