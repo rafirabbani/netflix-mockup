@@ -14,6 +14,8 @@ router.get('/movies-comments', movies.findAllMoviesAndComments)
 router.get('/:id/movie-casts', movies.findMovieAndCasts)
 router.get('/:id/movie-comments', movies.findMovieAndComments)
 router.get('/:id', movies.findMovie)
+router.get('/image/:id', movies.downloadMovieImage)
+/* router.get('/image/:title/:filename', movies.downloadMovieImagePath) */
 router.delete('/:id', movies.deleteMovie)
 router.put('/edit/:id', movies.editMovie)
 

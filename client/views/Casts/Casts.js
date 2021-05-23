@@ -33,8 +33,8 @@ export default function Casts() {
         });
     }, [status]);
 
-    const onDestroy = (id) => {
-        apiCast.destroy(id).then((result) => {
+    const onDestroy = (id, name) => {
+        apiCast.destroy(id, name).then((result) => {
             console.log(result)
             setStatus(true)
         })
@@ -70,6 +70,12 @@ export default function Casts() {
                                                 scope="col"
                                                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                             >
+                                                Cast Image
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                            >
                                                 Cast Name
                                             </th>
 
@@ -95,6 +101,9 @@ export default function Casts() {
                                                     <div className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-left">{cast.cast_id}</div>
                                                 </td>
                                                 <td className="whitespace-nowrap">
+                                                    <div className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-left"><img src={`/api/casts/image/${cast.cast_id}`} className='h-16 w-16' alt=""></img></div>
+                                                </td>
+                                                <td className="whitespace-nowrap">
                                                     <div className="px-6 py-4whitespace-nowrap text-sm text-gray-500 text-left">{cast.cast_name}</div>
                                                 </td>
                                                 <td className="whitespace-nowrap">
@@ -114,7 +123,7 @@ export default function Casts() {
                                                                         "Are you sure you wish to delete this item?"
                                                                     )
                                                                 )
-                                                                    onDestroy(cast.cast_id)
+                                                                    onDestroy(cast.cast_id, cast.cast_name)
                                                             } } ><TrashIcon className="h-5 w-5 text-red-500"/></button>
                                                     </a>
                                                 </td>

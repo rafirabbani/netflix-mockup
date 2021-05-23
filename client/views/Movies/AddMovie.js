@@ -33,7 +33,7 @@ export default function AddMovie(props) {
 
     const uploadSingleFile = name => event => {
       //1.untuk ubah file ke blob agar bisa di preview image nya
-      setBlob({ ...blob, [name]: URL.createObjectURL(event.target.files[0]) })
+      setBlob({ ...blob, [name]: URL.createObjectURL(event.target.files[0])})
 
       //2. simpan data File, bisa juga gunakan blob, lalu blob diconvert lagi
       // ke File type, spy ga bingung kita coba gunakan cara ini aja
@@ -89,6 +89,7 @@ export default function AddMovie(props) {
         setOpen();
         props.setStatus();
         props.setModal();
+        //location.reload();
     }
 
   return (
@@ -201,7 +202,7 @@ export default function AddMovie(props) {
                           />
                         </div>
                         <div className='block mt-5'><label>Movie Status</label></div>
-                         <div className='block mt-1'><select class='rounded-lg' id='movie-status' name='movie_status'
+                         <div className='block mt-1'><select className='rounded-lg' id='movie-status' name='movie_status'
                             onChange={handleChange('movie_status')}>
                             <option  defaultValue hidden>Choose Movie Status</option>
                             <option value='On Going'>On Going</option>
@@ -216,7 +217,7 @@ export default function AddMovie(props) {
                           />
                         </div>
                         <div className='block mt-5'><label>Movie Release Status</label></div>
-                         <div className='block mt-1'><select class='rounded-lg' id='movie-release' name='movie_release'
+                         <div className='block mt-1'><select className='rounded-lg' id='movie-release' name='movie_release'
                             onChange={handleChange('movie_release')}>
                             <option defaultvalue hidden>Choose Movie Release Status</option>
                             <option value='true'>Released</option>

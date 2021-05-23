@@ -42,8 +42,10 @@ const create = async (movie) => {
 }
 
 const edit = async (movie) => {
+    const id = movie.get('movie_id')
+    //console.log(id)
     try {
-        let result = await axios.put(`/api/movies/${movie.movie_id}`, movie)
+        let result = await axios.put(`/api/movies/edit/${id}`, movie)
         return result
     }
     catch (err) {
@@ -66,11 +68,22 @@ const destroy = async (movie_id, movie_title) => {
     }
 }
 
+/* const image = async (id) => {
+    try {
+        let result = await axios.get(`/api/movies/image/${id}`)
+        return result
+    }
+    catch (err) {
+        return err.response
+    }
+} */
+
 export default {
     getAll,
     getMoviesCasts,
     getOne,
     create,
     edit,
-    destroy
+    destroy,
+    //image
 }

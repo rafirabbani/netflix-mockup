@@ -21,6 +21,10 @@ const casts = (sequelize, DataTypes) => {
         model: 'movies',
         key: 'movie_id'
       }
+    },
+    cast_image_path: {
+      type: DataTypes.STRING(255),
+      allowNull: true
     }
   }, {
     sequelize,

@@ -4,11 +4,13 @@ import apiMovie from './ApiMovies'
 import AddMovie from './AddMovie'
 import DetailsMovie from './DetailsMovie' 
 import {TrashIcon, FolderOpenIcon} from '@heroicons/react/outline'
+//import axios from 'axios'
 
 export default function Movies() {
-    
     const [datas, setDatas] = useState([]);
     const [modal, setModal] = useState(false);
+    //const [images, setImages] = useState([]);
+    //const [blob, setBlob] = useState([])
     const [status, setStatus] = useState(false);
     const [detailsMovie, setDetailsMovie] = useState(false);
     const [movie, setMovie] = useState({
@@ -30,13 +32,28 @@ export default function Movies() {
         movieTrailer: undefined,
     })
 
+    
+
     useEffect(() => {
         apiMovie.getAll().then(data => {
+            //console.log(data)
             setDatas(data)
-        }). catch(err => {
+            /* data.map(movie => {
+                apiMovie.image(movie.movie_id).then(image => {
+                    //console.log(image)
+                }).catch (err => {
+                    console.log(err)
+                })
+            }) */
+        }).catch(err => {
             console.log(err)
         });
+        
     }, []);
+
+    /* useEffect(() => {
+        setBlob(new Blob(images))
+    }, []) */
 
        useEffect(() => {
         apiMovie.getAll().then(data => {
@@ -49,12 +66,13 @@ export default function Movies() {
     
     const onDestroy = (id, title) => {
         apiMovie.destroy(id, title).then((result) => {
-            //console.log(result)
+            console.log(result)
             setStatus(true)
         })
     }
 
     const onDetails = (movieId, movieTMDB, movieRating, movieView, movieTitle, movieEpisode, movieDirector, movieCasts, movieStudio, movieStatus, movieDuration, movieRelease, movieCountry, movieGenre, movieNetwork, movieTrailer) => {
+        //console.log(images)
         setDetailsMovie(true)
         setMovie({
             movieId: movieId,
@@ -96,9 +114,14 @@ export default function Movies() {
                                                 scope="col"
                                                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                             >
+                                                Movie Image
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                            >
                                                 Movie Title
                                             </th>
-
                                             <th
                                                 scope="col"
                                                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -114,11 +137,14 @@ export default function Movies() {
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
-                                        {datas.map((movie) => (
+                                        {
+                                        datas.map((movie) => (
                                             <tr key={movie.movie_id}>
-
                                                 <td className="whitespace-nowrap">
                                                     <div className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-left">{movie.movie_id}</div>
+                                                </td>
+                                                <td className="whitespace-nowrap">
+                                                    <div className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-left"><img src={`/api/movies/image/${movie.movie_id}`} className='h-24 w-24' alt=""></img></div>
                                                 </td>
                                                 <td className="whitespace-nowrap">
                                                     <div className="px-6 py-4whitespace-nowrap text-sm text-gray-500 text-left">{movie.movie_title}</div>

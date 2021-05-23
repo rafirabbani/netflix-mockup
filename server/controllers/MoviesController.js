@@ -306,6 +306,21 @@ const editMovie = async (req, res) => {
     return res.send(result) */
 }
 
+const downloadMovieImage = async (req, res) => {
+    const result = await req.context.models.Movies.findOne({
+        where: {movie_id: req.params.id}
+    });
+    const filePath = result.dataValues.movie_image_path
+    res.download(filePath)
+}
+
+/* const downloadMovieImagePath = async (req, res) => {
+    let title = req.params.title.replace(/\s+/g, '').replace(/\W/g, '').trim()
+    const image = `${pathDir}/movies/${title}/${req.params.filename}`
+    console.log(image)
+    res.download(image)
+} */
+
 export default {
     createMovie,
     findAllMovies,
@@ -316,5 +331,7 @@ export default {
     findMovieAndCasts,
     deleteMovie,
     editMovie,
-    singleMovieImage
+    singleMovieImage,
+    downloadMovieImage,
+    //downloadMovieImagePath
 }

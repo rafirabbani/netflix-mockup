@@ -4,7 +4,10 @@ import { PencilAltIcon } from '@heroicons/react/outline'
 import apiMovie from './ApiMovies'
 
 export default function DetailsMovie(props) {
+  //console.log(props)
   const [open, setOpen] = useState(true)
+  const [blob, setBlob] = useState([]);
+  const [files, setFiles] = useState([]);
   const cancelButtonRef = useRef()
   const [edit, setEdit] = useState(false)
   const [values, setValues] = useState({
@@ -34,8 +37,36 @@ export default function DetailsMovie(props) {
     setValues({...values, [name]: event.target.value});
   }
 
+  const uploadSingleFile = name => event => {
+    //1.untuk ubah file ke blob agar bisa di preview image nya
+    setBlob({ ...blob, [name]: URL.createObjectURL(event.target.files[0]) })
+
+    //2. simpan data File, bisa juga gunakan blob, lalu blob diconvert lagi
+    // ke File type, spy ga bingung kita coba gunakan cara ini aja
+    setFiles({ ...files, [name]: event.target.files[0] })
+}
+
   const onSubmit = (id) => {
-    const req = {
+    let edit = new FormData();
+    edit.append('movie_id', id)
+    values.movie_tmdb && edit.append('movie_tmdb', values.movie_tmdb);
+    values.movie_rating && edit.append('movie_rating', values.movie_rating);
+    values.movie_view && edit.append('movie_view', values.movie_view);
+    values.movie_title && edit.append('movie_title', values.movie_title);
+    values.movie_episode && edit.append('movie_episode', values.movie_episode);
+    values.movie_director && edit.append('movie_director', values.movie_director);
+    values.movie_casts && edit.append('movie_casts', values.movie_casts);
+    values.movie_studio && edit.append('movie_studio', values.movie_studio);
+    values.movie_status && edit.append('movie_status', values.movie_status);
+    values.movie_duration && edit.append('movie_duration', values.movie_duration);
+    values.movie_release && edit.append('movie_release', values.movie_release);
+    values.movie_country && edit.append('movie_country', values.movie_country);
+    values.movie_genre && edit.append('movie_genre', values.movie_genre);
+    values.movie_network && edit.append('movie_network', values.movie_network);
+    values.movie_trailer && edit.append('movie_trailer', values.movie_trailer);
+    files.image && edit.append('movie_image', files.image);
+
+    /* const req = {
         movie_id: id,
         movie_tmdb: values.movie_tmdb,
         movie_rating: values.movie_rating,
@@ -52,21 +83,22 @@ export default function DetailsMovie(props) {
         movie_genre: values.movie_genre,
         movie_network: values.movie_network,
         movie_trailer: values.movie_trailer
-    }
-    apiMovie.edit(req).then(result => {
+    } */
+    /* for (let data of edit.entries()) {
+        console.log(data)
+      } */
+    apiMovie.edit(edit).then(result => {
         console.log(result)
     }); 
-    modalClose()
+    modalClose();
 }
 
   const modalClose = () => {
-    for (const key in props.employee){
-        props.movies[key] = undefined;
-    }
-    setEdit(false)
+    setEdit(false);
     setOpen();
-    props.setStatus()
+    props.setStatus();
     props.setDetailsMovie();
+    //location.reload();
 }
 
   return (
@@ -179,7 +211,7 @@ export default function DetailsMovie(props) {
                           />
                         </div>
                         <div className='block mt-5'><label>Movie Status</label></div>
-                         <div className='block mt-1'><select class='rounded-lg' id='movie-status' name='movie_status'
+                         <div className='block mt-1'><select className='rounded-lg' id='movie-status' name='movie_status'
                             onChange={handleChange('movie_status')}>
                             <option defaultValue hidden>{props.movie.movieStatus}</option>
                             <option value='On Going'>On Going</option>
@@ -194,7 +226,7 @@ export default function DetailsMovie(props) {
                           />
                         </div>
                         <div className='block mt-5'><label>Movie Release Status</label></div>
-                         <div className='block mt-1'><select class='rounded-lg' id='movie-release' name='movie_release'
+                         <div className='block mt-1'><select className='rounded-lg' id='movie-release' name='movie_release'
                             onChange={handleChange('movie_release')}>
                             <option defaultValue hidden>{props.movie.movieRelease ? 'Released' : 'Not Released'}</option>
                             <option value='true'>Released</option>
@@ -228,6 +260,29 @@ export default function DetailsMovie(props) {
                             onChange={handleChange('movie_trailer')} 
                             placeholder={props.movie.movieTrailer}
                           />
+                        </div>
+                        <div className={edit ? 'hidden' : 'block'}>
+                        <div className='block mt-5'><label>Movie Image</label></div>
+                        <div className='block mt-1'>
+                          <img src={`/api/movies/image/${props.movie.movieId}`} className='h-48 w-48'>
+                          </img>
+                        </div>
+                        </div>
+                        <div className={edit ? 'block' : 'hidden'}>
+                        <div className='block mt-5'><label>Movie Image</label></div>
+                        <div className="mt-1 col-span-6 sm:col-span-2 lg:col-span-3 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-lg">
+                          <div className="space-y-2 text-center">
+                            <div className="mx-auto h-48 w-24 text-gray-400">
+                              <img src={blob.image} alt='' className="mx-auto h-48 w-48" />
+                            </div>
+                            <div className="flex text-sm">
+                              <label for="image" className="relative cursor-pointer bg-white rounded-lg font-medium hover:text-blue-400">
+                                Upload Image
+                                  <input id="image" name="image" onChange={uploadSingleFile('image')} type="file" className="sr-only" />
+                              </label>
+                            </div>
+                          </div>
+                        </div>
                         </div>
                       </form>
                     </div>
